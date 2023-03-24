@@ -1,6 +1,12 @@
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
+from controladorBD import *
+
+controlador=controladorBD()
+
+def ejecutarInsert():
+    controlador.guardar_usuario(varNom.get(), varCorreo.get(), varContra.get())
 
 Ventana=Tk()
 Ventana.title("Crud Usuarios")
@@ -29,7 +35,7 @@ varContra= tk.StringVar()
 lblContra=Label(pestaña1, text="Contraseña: ").pack()
 txtContra=Entry(pestaña1, textvariable=varContra).pack()
 
-btnGuardar=Button(pestaña1, text="Guardar Usuario").pack()
+btnGuardar=Button(pestaña1, text="Guardar Usuario", command=ejecutarInsert).pack()
 
 
 
