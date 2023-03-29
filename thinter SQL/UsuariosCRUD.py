@@ -2,11 +2,26 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 from controladorBD import *
+from tkinter import messagebox
 
 controlador=controladorBD()
 
+#Proceder a guardar usando el métdodo guardarUsuario() del objeto contolador
 def ejecutarInsert():
     controlador.guardar_usuario(varNom.get(), varCorreo.get(), varContra.get())
+    
+#Función para buscar un usuario
+def ejecutaSelectU():
+    rsUsuario= controlador.consultarUsuario(varBus.get())
+    
+    for usu in rsUsuario:
+        cadena= str(usu[0]) + " " + usu[1] + " " + usu[2] + " " + str(usu[3])
+    
+    if(rsUsuario):
+        print(cadena)
+    else:
+        messagebox.showinfo("No encontrado pa", "Usuario no registrado en la Base de Datos")
+        
 
 Ventana=Tk()
 Ventana.title("Crud Usuarios")
@@ -37,6 +52,16 @@ txtContra=Entry(pestaña1, textvariable=varContra).pack()
 
 btnGuardar=Button(pestaña1, text="Guardar Usuario", command=ejecutarInsert).pack()
 
+#Pestaña 2: Buscar usuario
+titulo2=Label(pestaña2, text="Buscar usuarios", fg="blue", font=("Modern", 18)).pack()
+
+varBus= tk.StringVar()
+lblid=Label(pestaña2, text="Identificador de Usuario: ").pack()
+txtid=Entry(pestaña2, textvariable=varBus).pack()
+btnBuscar=Button(pestaña2, text="Buscar", command=ejecutaSelectU).pack()
+
+subBus= Label(pestaña2, text="Registrado:", fg="blue").pack()
+textBus=tk.Text(pestaña2, height=5, width=52).pack()
 
 
 panel.add(pestaña1, text="Formulario de Usuarios")
