@@ -14,15 +14,16 @@ def ejecutarInsert():
 def ejecutaSelectU():
     rsUsuario= controlador.consultarUsuario(varBus.get())
     
+    textBus.config(state='normal')
+    textBus.delete('1.0', tk.END)  
     for usu in rsUsuario:
-        cadena= str(usu[0]) + " " + usu[1] + " " + usu[2] + " " + str(usu[3])
+        textBus.insert(tk.END, str(usu[0]) + " " + usu[1] + " " + usu[2] + " " + str(usu[3]) + "\n")
+    textBus.config(state='disabled')
     
-    if(rsUsuario):
-        print(cadena)
-    else:
-        messagebox.showinfo("No encontrado pa", "Usuario no registrado en la Base de Datos")
-        
+    if not rsUsuario:
+        messagebox.showinfo("Usuario no encontrado", "No se encontró ningún usuario con ese identificador")
 
+        
 Ventana=Tk()
 Ventana.title("Crud Usuarios")
 Ventana.geometry("500x300")
@@ -61,8 +62,10 @@ txtid=Entry(pestaña2, textvariable=varBus).pack()
 btnBuscar=Button(pestaña2, text="Buscar", command=ejecutaSelectU).pack()
 
 subBus= Label(pestaña2, text="Registrado:", fg="blue").pack()
-textBus=tk.Text(pestaña2, height=5, width=52).pack()
 
+# crea el objeto Text y asignalo a la variable textBus
+textBus = tk.Text(pestaña2, height=5, width=52)
+textBus.pack()
 
 panel.add(pestaña1, text="Formulario de Usuarios")
 panel.add(pestaña2, text="Buscar Usuario ")

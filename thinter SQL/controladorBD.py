@@ -53,7 +53,7 @@ class controladorBD:
             try:
                 #4.- Preparar lo necesario para el select
                 cursor= conx.cursor()
-                sqlSelect= "select * from TABLA where id-"+id
+                sqlSelect= "select * from TABLA where id="+id
                 
                 #5.- Ejecución y guardado de la consulta
                 cursor.execute(sqlSelect)
