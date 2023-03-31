@@ -23,10 +23,20 @@ def ejecutaSelectU():
     if not rsUsuario:
         messagebox.showinfo("Usuario no encontrado", "No se encontró ningún usuario con ese identificador")
 
-        
+def cargar_usuarios():
+    
+    registros = tablaUsuarios.get_children()
+    for registro in registros:
+            tablaUsuarios.delete(registro)
+
+    usuarios = controlador.consultar_usuarios()
+    
+    for usuario in usuarios:
+            tablaUsuarios.insert("", END, values=usuario)
+  
 Ventana=Tk()
 Ventana.title("Crud Usuarios")
-Ventana.geometry("500x300")
+Ventana.geometry("500x500")
 
 panel=ttk.Notebook(Ventana)
 panel.pack(fill="both", expand="yes")
@@ -66,6 +76,31 @@ subBus= Label(pestaña2, text="Registrado:", fg="blue").pack()
 # crea el objeto Text y asignalo a la variable textBus
 textBus = tk.Text(pestaña2, height=5, width=52)
 textBus.pack()
+
+#Pestaña 3: Consultar Usuarios
+titulo3=Label(pestaña3, text="Consultar todos los Usuarios", fg="blue", font=("Modern", 18)).pack()
+frameTabla = Frame(pestaña3)
+frameTabla.pack()
+
+frameTabla = Frame(pestaña3)
+frameTabla.pack()
+
+tablaUsuarios = ttk.Treeview(frameTabla, columns=(1, 2, 3), show="headings", height=15)
+tablaUsuarios.pack()
+
+tablaUsuarios.heading(1, text="ID")
+tablaUsuarios.column(1, width=40, anchor=CENTER)
+
+tablaUsuarios.heading(2, text="Nombre")
+tablaUsuarios.column(2, width=200, anchor=CENTER)
+
+tablaUsuarios.heading(3, text="Correo")
+tablaUsuarios.column(3, width=250, anchor=CENTER)
+
+btnCargarUsuarios = Button(pestaña3, text="Cargar Usuarios", command=cargar_usuarios).pack()
+
+# Cargar usuarios al iniciar la pestaña
+cargar_usuarios()
 
 panel.add(pestaña1, text="Formulario de Usuarios")
 panel.add(pestaña2, text="Buscar Usuario ")
