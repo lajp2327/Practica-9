@@ -1,14 +1,13 @@
 from tkinter import messagebox
 import sqlite3
 import bcrypt
-
 class controladorBD:
     def __init__(self):
         pass
     
     def ConexionBD(self):
         try:
-            conexion= sqlite3.connect("C:/Users/lajp2/Documents/GitHub/Practica-9/thinter SQL/DB.db")
+            conexion= sqlite3.connect("/Users/lajp2/Documents/GitHub/Practica-9/thinter SQL/DB.db")
             print("Conectado BD")
             return conexion
         except sqlite3.OperationalError:
@@ -73,4 +72,31 @@ class controladorBD:
         usuarios = cursor.fetchall()
         conx.close()
         return usuarios
-                
+    
+    def actualizar_usuarios(self, id_usuario, nuevoNom, nuevoCorreo, nuevaContra):
+        conx= self.ConexionBD()
+        cursor= conx.cursor()
+        campos = []
+        datos = []
+        if nuevoNom != "":  
+            campos.append("Nombre=?")
+            datos.append(nuevoNom)
+        if nuevoCorreo != "":
+            campos.append("Correo=?")
+            datos.append(nuevoCorreo)
+        if nuevaContra != "":
+            contra = self.encriptarCon(nuevaContra)
+            campos.append("Contraseña=?")
+            datos.append(contra)
+    
+        if campos:
+            campos_query = ", ".join(campos)
+            query = f"UPDATE TABLA SET {campos_query} WHERE id=?"
+            datos.append(id_usuario)
+            cursor.execute(query, tuple(datos))
+            conx.commit()
+            messagebox.showinfo("Exito", "Se ha actualizado el usuario")
+        else:
+            messagebox.showwarning("Cuidado", "No se ha ingresado información para actualizar")
+        cursor.close()
+        conx.close()

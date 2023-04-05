@@ -33,10 +33,13 @@ def cargar_usuarios():
     
     for usuario in usuarios:
             tablaUsuarios.insert("", END, values=usuario)
+
+def actualizar_usuarios():
+    controlador.actualizar_usuarios(varid.get(), varNom.get(), varCorreo.get(), varContra.get())
   
 Ventana=Tk()
 Ventana.title("Crud Usuarios")
-Ventana.geometry("500x500")
+Ventana.geometry("800x500")
 
 panel=ttk.Notebook(Ventana)
 panel.pack(fill="both", expand="yes")
@@ -45,6 +48,7 @@ pestaña1=ttk.Frame(panel)
 pestaña2=ttk.Frame(panel)
 pestaña3=ttk.Frame(panel)
 pestaña4=ttk.Frame(panel)
+pestaña5=ttk.Frame(panel)
 
 #Pestaña 1: Formulario Usuarios
 titulo=Label(pestaña1, text="Registro Usuarios", fg="blue", font=("Modern", 18)).pack()
@@ -99,6 +103,24 @@ tablaUsuarios.column(3, width=250, anchor=CENTER)
 
 btnCargarUsuarios = Button(pestaña3, text="Cargar Usuarios", command=cargar_usuarios).pack()
 
+#Pestaña 4: Actualizar Usuarios
+titulo4=Label(pestaña4, text="Actualizar Usuario", fg="blue", font=("Moderns", 18)).pack()
+
+varid=tk.StringVar()
+lblid=Label(pestaña4, text="ID del Usuario que se desea actualizar: ").pack()
+txtid=Entry(pestaña4, textvariable=varid).pack()
+
+lblNom=Label(pestaña4, text="Nuevo nombre: ").pack()
+txtNom=Entry(pestaña4, textvariable=varNom).pack()
+
+lblCorreo=Label(pestaña4, text="Nuevo correo electrónico: ").pack()
+txtCorreo=Entry(pestaña4, textvariable=varCorreo).pack()
+
+lblContra=Label(pestaña4, text="Nueva contraseña: ").pack()
+txtContra=Entry(pestaña4, textvariable=varContra).pack()
+
+btnActualizar=Button(pestaña4, text="Actualizar Usuario", command=actualizar_usuarios).pack()
+
 # Cargar usuarios al iniciar la pestaña
 cargar_usuarios()
 
@@ -106,4 +128,5 @@ panel.add(pestaña1, text="Formulario de Usuarios")
 panel.add(pestaña2, text="Buscar Usuario ")
 panel.add(pestaña3, text="Consultar Usuarios")
 panel.add(pestaña4, text="Actualizar Usuario")
+panel.add(pestaña5, text="Eliminar Usuario")
 Ventana.mainloop()
