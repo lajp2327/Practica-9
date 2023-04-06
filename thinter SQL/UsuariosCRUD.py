@@ -23,6 +23,7 @@ def ejecutaSelectU():
     if not rsUsuario:
         messagebox.showinfo("Usuario no encontrado", "No se encontró ningún usuario con ese identificador")
 
+#Función para mostrar a todos los usuarios
 def cargar_usuarios():
     
     registros = tablaUsuarios.get_children()
@@ -34,9 +35,14 @@ def cargar_usuarios():
     for usuario in usuarios:
             tablaUsuarios.insert("", END, values=usuario)
 
+#Función para actualizar un usuario
 def actualizar_usuarios():
-    controlador.actualizar_usuarios(varid.get(), varNom.get(), varCorreo.get(), varContra.get())
-  
+    controlador.actualizar_usuarios(varid_actualizar.get(), varNom.get(), varCorreo.get(), varContra.get())
+    
+#Función para eliminar un usuario
+def elimina_usuario():
+    controlador.eliminar_usuario(varid_eliminar.get())  
+
 Ventana=Tk()
 Ventana.title("Crud Usuarios")
 Ventana.geometry("800x500")
@@ -68,7 +74,7 @@ txtContra=Entry(pestaña1, textvariable=varContra).pack()
 btnGuardar=Button(pestaña1, text="Guardar Usuario", command=ejecutarInsert).pack()
 
 #Pestaña 2: Buscar usuario
-titulo2=Label(pestaña2, text="Buscar usuarios", fg="blue", font=("Modern", 18)).pack()
+titulo2=Label(pestaña2, text="Buscar usuarios", fg="orange", font=("Modern", 18)).pack()
 
 varBus= tk.StringVar()
 lblid=Label(pestaña2, text="Identificador de Usuario: ").pack()
@@ -82,7 +88,7 @@ textBus = tk.Text(pestaña2, height=5, width=52)
 textBus.pack()
 
 #Pestaña 3: Consultar Usuarios
-titulo3=Label(pestaña3, text="Consultar todos los Usuarios", fg="blue", font=("Modern", 18)).pack()
+titulo3=Label(pestaña3, text="Consultar todos los Usuarios", fg="orange", font=("Modern", 18)).pack()
 frameTabla = Frame(pestaña3)
 frameTabla.pack()
 
@@ -104,11 +110,11 @@ tablaUsuarios.column(3, width=250, anchor=CENTER)
 btnCargarUsuarios = Button(pestaña3, text="Cargar Usuarios", command=cargar_usuarios).pack()
 
 #Pestaña 4: Actualizar Usuarios
-titulo4=Label(pestaña4, text="Actualizar Usuario", fg="blue", font=("Moderns", 18)).pack()
+titulo4=Label(pestaña4, text="Actualizar Usuario", fg="green", font=("Modern", 18)).pack()
 
-varid=tk.StringVar()
-lblid=Label(pestaña4, text="ID del Usuario que se desea actualizar: ").pack()
-txtid=Entry(pestaña4, textvariable=varid).pack()
+varid_actualizar=tk.StringVar()
+lblid_actualizar=Label(pestaña4, text="ID del Usuario que se desea actualizar: ").pack()
+txtid_actualizar=Entry(pestaña4, textvariable=varid_actualizar).pack()
 
 lblNom=Label(pestaña4, text="Nuevo nombre: ").pack()
 txtNom=Entry(pestaña4, textvariable=varNom).pack()
@@ -120,6 +126,15 @@ lblContra=Label(pestaña4, text="Nueva contraseña: ").pack()
 txtContra=Entry(pestaña4, textvariable=varContra).pack()
 
 btnActualizar=Button(pestaña4, text="Actualizar Usuario", command=actualizar_usuarios).pack()
+
+#Pestaña 5: Eliminar un usuario
+titulo5=Label(pestaña5, text="Eliminar Usuario", fg="red", font=("Modern", 18)).pack()
+
+varid_eliminar=tk.StringVar()
+lblid_eliminar=Label(pestaña5, text="ID del usuario que desea eliminar: ").pack()
+txtid_eliminar=Entry(pestaña5, textvariable=varid_eliminar).pack()
+
+btnEliminar=Button(pestaña5, text="Eliminar Usuario",command=elimina_usuario).pack()
 
 # Cargar usuarios al iniciar la pestaña
 cargar_usuarios()

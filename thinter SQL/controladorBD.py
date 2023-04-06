@@ -88,15 +88,45 @@ class controladorBD:
             contra = self.encriptarCon(nuevaContra)
             campos.append("Contraseña=?")
             datos.append(contra)
-    
+
         if campos:
             campos_query = ", ".join(campos)
             query = f"UPDATE TABLA SET {campos_query} WHERE id=?"
             datos.append(id_usuario)
             cursor.execute(query, tuple(datos))
             conx.commit()
-            messagebox.showinfo("Exito", "Se ha actualizado el usuario")
+            messagebox.showinfo("Exito", "Se ha actualizado el usuario con el ID: " + id_usuario + " en la base de datos")
         else:
             messagebox.showwarning("Cuidado", "No se ha ingresado información para actualizar")
         cursor.close()
         conx.close()
+
+    
+    def eliminar_usuario(self, id_usuario):
+        conx=self.ConexionBD()
+        cursor=conx.cursor()
+        
+        if (id_usuario==""):
+            messagebox.showwarning("Error", "ID vacio")
+            conx.close()  
+            return
+        
+        #En caso de que no se encuentre el ID en la BD
+        cursor.execute("Select * from TABLA where id=?", (str(id_usuario),))
+        busqueda= cursor.fetchone()
+        
+        if (not busqueda):
+            messagebox.showwarning("ID no encontrado", "El ID introducido (" + id_usuario + ") no se encuentra en la base de datos, favor de verificar")
+            conx.close()
+            return
+        
+        #Confirmación para eliminar al usuario
+        confirmar=messagebox.askokcancel("Advertencia", "¿Está seguro que desea eliminar al usuario con el ID: " + id_usuario + " de la base de datos?")
+        
+        if confirmar:
+                querry="Delete from TABLA where id=?"
+                data=(id_usuario,)
+                cursor.execute(querry, data)
+                conx.commit()
+                messagebox.showinfo("Realizado", "Se eliminó el usuario de la base de datos con éxito")
+                conx.close()
