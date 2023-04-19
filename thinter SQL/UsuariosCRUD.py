@@ -37,7 +37,7 @@ def cargar_usuarios():
 
 #Función para actualizar un usuario
 def actualizar_usuarios():
-    controlador.actualizar_usuarios(varid_actualizar.get(), varNom.get(), varCorreo.get(), varContra.get())
+    controlador.actualizar_usuarios(varid_actualizar.get(), varNom_actualizar.get(), varCorreo_actualizar.get(), varContra_actualizar.get())
     
 #Función para eliminar un usuario
 def elimina_usuario():
@@ -116,14 +116,17 @@ varid_actualizar=tk.StringVar()
 lblid_actualizar=Label(pestaña4, text="ID del Usuario que se desea actualizar: ").pack()
 txtid_actualizar=Entry(pestaña4, textvariable=varid_actualizar).pack()
 
-lblNom=Label(pestaña4, text="Nuevo nombre: ").pack()
-txtNom=Entry(pestaña4, textvariable=varNom).pack()
+varNom_actualizar=tk.StringVar()
+lblNom_actualizar=Label(pestaña4, text="Nuevo nombre: ").pack()
+txtNom_actualizar=Entry(pestaña4, textvariable=varNom_actualizar).pack()
 
+varCorreo_actualizar=tk.StringVar()
 lblCorreo=Label(pestaña4, text="Nuevo correo electrónico: ").pack()
-txtCorreo=Entry(pestaña4, textvariable=varCorreo).pack()
+txtCorreo=Entry(pestaña4, textvariable=varCorreo_actualizar).pack()
 
+varContra_actualizar=tk.StringVar()
 lblContra=Label(pestaña4, text="Nueva contraseña: ").pack()
-txtContra=Entry(pestaña4, textvariable=varContra).pack()
+txtContra=Entry(pestaña4, textvariable=varContra_actualizar).pack()
 
 btnActualizar=Button(pestaña4, text="Actualizar Usuario", command=actualizar_usuarios).pack()
 
