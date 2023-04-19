@@ -28,9 +28,12 @@ class Banco:
         self.cursor.execute("SELECT * FROM TBCuentas")
         return self.cursor.fetchall()
 
+    def cerrar(self):
+        self.conexion.close()
 class GUI:
     def __init__(self):
         self.banco = Banco()
+
         
         self.window = Tk()
         self.window.title("Banco")
@@ -79,32 +82,32 @@ class GUI:
 
         self.window.mainloop()
 
-def agregar_cuenta(self):
-    cuenta = self.ent_cuenta.get()
-    saldo = self.ent_saldo.get()
+    def agregar_cuenta(self):
+        cuenta = self.ent_cuenta.get()
+        saldo = self.ent_saldo.get()
 
-    if cuenta and saldo:
-        self.banco.agregar_cuenta(cuenta, saldo)
-        messagebox.showinfo("Cuenta agregada", "La cuenta se ha agregado correctamente")
-        self.ent_cuenta.delete(0, END)
-        self.ent_saldo.delete(0, END)
-        self.cuentas_list.insert(END, (cuenta, saldo))
-    else:
-        messagebox.showwarning("Error", "Los campos número de cuenta y saldo son requeridos")
+        if cuenta and saldo:
+            self.banco.agregar_cuenta(cuenta, saldo)
+            messagebox.showinfo("Cuenta agregada", "La cuenta se ha agregado correctamente")
+            self.ent_cuenta.delete(0, END)
+            self.ent_saldo.delete(0, END)
+            self.cuentas_list.insert(END, (cuenta, saldo))
+        else:
+            messagebox.showwarning("Error", "Los campos número de cuenta y saldo son requeridos")
 
-def consultar_cuentas(self):
-    self.cuentas_list.delete(0, END)
-    cuentas = self.banco.consultar_cuentas()
-    for cuenta in cuentas:
-        self.cuentas_list.insert(END, cuenta)
+    def consultar_cuentas(self):
+        self.cuentas_list.delete(0, END)
+        cuentas = self.banco.consultar_cuentas()
+        for cuenta in cuentas:
+            self.cuentas_list.insert(END, cuenta)
 
-def actualizar_cuenta(self):
-    id_cuenta = self.ent_id_cuenta.get()
-    nueva_cuenta = self.ent_nueva_cuenta.get()
-    nuevo_saldo = self.ent_nuevo_saldo.get()
+    def actualizar_cuenta(self):
+        id_cuenta = self.ent_id_cuenta.get()
+        nueva_cuenta = self.ent_nueva_cuenta.get()
+        nuevo_saldo = self.ent_nuevo_saldo.get()
 
-    if id_cuenta and nueva_cuenta and nuevo_saldo:
-        cuenta_existente = self.banco.consultar_cuenta(id_cuenta)
+        if id_cuenta and nueva_cuenta and nuevo_saldo:
+            cuenta_existente = self.banco.consultar_cuenta(id_cuenta)
         if cuenta_existente:
             self.banco.actualizar_cuenta(id_cuenta, nueva_cuenta, nuevo_saldo)
             messagebox.showinfo("Cuenta actualizada", "La cuenta se ha actualizado correctamente")
@@ -114,9 +117,10 @@ def actualizar_cuenta(self):
             self.consultar_cuentas()
         else:
             messagebox.showwarning("Error", "No existe una cuenta con el ID especificado")
-    else:
-        messagebox.showwarning("Error", "Todos los campos son requeridos")
 
-root = tk.Tk()
-app = Banco(master=root)
-app.mainloop()
+    def cerrar_ventana(self):
+        self.banco.cerrar()
+        self.window.destroy()
+
+gui = GUI()
+gui.banco.cerrar()
